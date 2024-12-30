@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv()
+if os.getenv('ENVIRONMENT') == 'PROD':
+    WSGI_APPLICATION = 'mysite.wsgi.application'
+else:
+    from dotenv import load_dotenv
+    load_dotenv()
+    
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,9 +81,6 @@ TEMPLATES = [
         },
     },
 ]
-
-if os.environ['ENVIRONMENT'] != 'local':
-    WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # Database
